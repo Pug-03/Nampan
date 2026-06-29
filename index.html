@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Happy Anniversary ♡</title>
+  <meta name="description" content="A little something for you." />
+
+  <!-- Elegant fonts (falls back gracefully if offline) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Floating hearts/sparkles live here -->
+  <div id="particles" aria-hidden="true"></div>
+
+  <!-- ============ SCREEN 1: THE GIFT ============ -->
+  <section id="gift-screen" class="screen active">
+    <p class="overline">I have something for you</p>
+
+    <button id="gift" class="gift" aria-label="Open the gift">
+      <div class="gift-glow"></div>
+      <div class="gift-box">
+        <div class="gift-lid">
+          <div class="bow">
+            <span class="bow-left"></span>
+            <span class="bow-right"></span>
+            <span class="bow-knot"></span>
+          </div>
+        </div>
+        <div class="gift-body">
+          <div class="ribbon-v"></div>
+        </div>
+      </div>
+    </button>
+
+    <p class="hint">✦ tap to open your gift ✦</p>
+  </section>
+
+  <!-- ============ SCREEN 2: THE REVEAL ============ -->
+  <section id="reveal-screen" class="screen">
+    <div class="reveal-inner">
+
+      <header class="reveal-header">
+        <p class="overline">Happy Anniversary, my love</p>
+        <h1 class="script-title">Three Months<br />With You</h1>
+      </header>
+
+      <!-- Days together counter -->
+      <div class="counter card">
+        <p class="counter-label">We've been together for</p>
+        <div class="counter-grid">
+          <div class="unit"><span id="days" class="num">0</span><span class="cap">days</span></div>
+          <div class="unit"><span id="hours" class="num">0</span><span class="cap">hours</span></div>
+          <div class="unit"><span id="minutes" class="num">0</span><span class="cap">minutes</span></div>
+          <div class="unit"><span id="seconds" class="num">0</span><span class="cap">seconds</span></div>
+        </div>
+        <p class="counter-sub" id="counter-sub">and every second has been my favorite</p>
+      </div>
+
+      <!-- Photo slideshow -->
+      <div class="slideshow card">
+        <div class="slides" id="slides"><!-- images injected by JS --></div>
+        <button class="slide-btn prev" id="prevBtn" aria-label="Previous photo">‹</button>
+        <button class="slide-btn next" id="nextBtn" aria-label="Next photo">›</button>
+        <div class="dots" id="dots"></div>
+      </div>
+
+      <!-- Love letter -->
+      <article class="letter card">
+        <h2 class="letter-title">A Letter For You</h2>
+        <div class="letter-body" id="letter-body">
+          <p>My dearest,</p>
+          <p>Three months ago you walked into my life, and somehow everything became softer, warmer, and a little more like home. I still smile at my phone like an idiot every time your name lights up the screen.</p>
+          <p>Thank you for every late-night talk, every laugh, and every small moment that made the ordinary days feel like the best ones. I don't know what tomorrow holds, but I know I want to spend it finding out with you.</p>
+          <p>Here's to us — and to all the anniversaries still waiting to be ours.</p>
+        </div>
+        <p class="signature">Always yours ♡</p>
+      </article>
+
+      <p class="footer-note">Made with love, just for you · March 29</p>
+    </div>
+  </section>
+
+  <!-- Background music -->
+  <audio id="bgm" loop preload="auto">
+    <!-- Drop your song at music/song.mp3 (see README). -->
+    <source src="music/song.mp3" type="audio/mpeg" />
+  </audio>
+  <button id="music-toggle" class="music-toggle" aria-label="Toggle music" hidden>
+    <span class="music-icon">♪</span>
+  </button>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
