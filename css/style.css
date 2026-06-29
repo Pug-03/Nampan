@@ -23,6 +23,9 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* No grey tap-flash on any button when touched (iOS Safari) */
+button { -webkit-tap-highlight-color: transparent; }
+
 html, body { height: 100%; }
 
 body {
@@ -39,6 +42,15 @@ body {
 }
 
 /* ---------- Floating particles ---------- */
+/* Front burst layer: same full-screen container, but above the content so the
+   celebration hearts pop in front of the gift instead of behind it. */
+#particles-front {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 55;
+  overflow: hidden;
+}
 #particles {
   position: fixed;
   inset: 0;
@@ -103,7 +115,18 @@ body {
   padding: 30px;
   margin: 10px 0 6px;
   animation: bob 3.4s ease-in-out infinite;
+  /* kill the grey/black box iOS Safari paints over tapped elements */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
+.gift:focus,
+.gift:focus-visible,
+.gift:active { outline: none; }
 @keyframes bob {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-14px); }

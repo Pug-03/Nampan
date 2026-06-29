@@ -24,8 +24,13 @@ const MEDIA = [
 /* ============================================================
    1) Floating hearts & sparkles
    ============================================================ */
-const SYMBOLS = ["♡", "❤", "✿", "✦", "❀", "♥"];
+// "︎" = the text (line-art) variation selector. It forces these symbols to
+// render in the elegant line style instead of Apple/colour emoji, so they look
+// the same on iPad, iPhone and PC.
+const TEXT_STYLE = "︎";
+const SYMBOLS = ["♡", "❤", "✿", "✦", "❀", "♥"].map((s) => s + TEXT_STYLE);
 const particleLayer = document.getElementById("particles");
+const burstLayer = document.getElementById("particles-front");
 
 function spawnParticle() {
   const p = document.createElement("span");
@@ -41,8 +46,8 @@ function spawnParticle() {
   particleLayer.appendChild(p);
   setTimeout(() => p.remove(), dur * 1000 + 200);
 }
-setInterval(spawnParticle, 650);
-for (let i = 0; i < 8; i++) setTimeout(spawnParticle, i * 300);
+setInterval(spawnParticle, 420);
+for (let i = 0; i < 14; i++) setTimeout(spawnParticle, i * 200);
 
 // A grand, spectacular burst the moment the lid blows off:
 // a light flash, expanding shockwave rings, and a radial explosion of hearts.
@@ -54,55 +59,66 @@ function grandReveal() {
   requestAnimationFrame(() => flash.classList.add("go"));
   setTimeout(() => flash.remove(), 1100);
 
-  // 2) two expanding shockwave rings
-  for (let r = 0; r < 2; r++) {
+  // 2) several expanding shockwave rings
+  for (let r = 0; r < 4; r++) {
     setTimeout(() => {
       const ring = document.createElement("div");
       ring.className = "shockwave";
       document.body.appendChild(ring);
       requestAnimationFrame(() => ring.classList.add("go"));
       setTimeout(() => ring.remove(), 1200);
-    }, r * 170);
+    }, r * 150);
   }
 
-  // 3) radial explosion of hearts & sparkles in every direction
+  // 3) radial explosion of hearts & sparkles in every direction.
+  // The reach scales with the screen so it fills big tablets (iPad) too.
   const COLORS = ["#ff8fb8", "#e7779b", "#f7d9a0", "#ffaecd", "#ffffff"];
-  const ICONS = ["♡", "❤", "✦", "✿", "❀", "★"];
-  const n = 48;
-  for (let i = 0; i < n; i++) {
+  const ICONS = ["♡", "❤", "✦", "✿", "❀", "★"].map((s) => s + TEXT_STYLE);
+  const reach = Math.max(window.innerWidth, window.innerHeight) * 0.62;
+
+  function spawnConfetti(i, total, spread) {
     const c = document.createElement("span");
     c.className = "confetti";
     c.textContent = ICONS[Math.floor(Math.random() * ICONS.length)];
-    const angle = (Math.PI * 2 * i) / n + (Math.random() * 0.4 - 0.2);
-    const dist = 120 + Math.random() * 280;
+    const angle = (Math.PI * 2 * i) / total + (Math.random() * spread - spread / 2);
+    const dist = reach * (0.35 + Math.random() * 0.75);
     c.style.setProperty("--tx", Math.cos(angle) * dist + "px");
     c.style.setProperty("--ty", Math.sin(angle) * dist + "px");
     c.style.setProperty("--rot", (Math.random() * 720 - 360) + "deg");
-    c.style.setProperty("--dur", (0.9 + Math.random() * 0.7).toFixed(2) + "s");
+    c.style.setProperty("--dur", (1.0 + Math.random() * 0.9).toFixed(2) + "s");
     c.style.color = COLORS[Math.floor(Math.random() * COLORS.length)];
-    c.style.fontSize = 14 + Math.random() * 24 + "px";
+    c.style.fontSize = 16 + Math.random() * 30 + "px";
     document.body.appendChild(c);
     requestAnimationFrame(() => c.classList.add("go"));
-    setTimeout(() => c.remove(), 1700);
+    setTimeout(() => c.remove(), 2100);
   }
+
+  // wave 1 — a huge immediate burst
+  const n1 = 160;
+  for (let i = 0; i < n1; i++) spawnConfetti(i, n1, 0.5);
+  // wave 2 — a second denser shower a moment later, for a sustained "wow"
+  setTimeout(() => {
+    const n2 = 120;
+    for (let i = 0; i < n2; i++) spawnConfetti(i + Math.random(), n2, 0.9);
+  }, 260);
 }
 
 // A celebratory burst when the gift opens
 function heartBurst() {
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 90; i++) {
     setTimeout(() => {
       const p = document.createElement("span");
       p.className = "particle";
       p.textContent = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
-      p.style.left = 50 + (Math.random() * 30 - 15) + "vw";
+      p.style.left = 50 + (Math.random() * 70 - 35) + "vw";
       p.style.fontSize = 16 + Math.random() * 26 + "px";
       p.style.setProperty("--drift", (Math.random() * 300 - 150) + "px");
       p.style.setProperty("--max-opacity", "0.95");
       const dur = 4 + Math.random() * 4;
       p.style.animationDuration = dur + "s";
-      particleLayer.appendChild(p);
+      burstLayer.appendChild(p);   // front layer, so it pops over the gift
       setTimeout(() => p.remove(), dur * 1000 + 200);
-    }, i * 40);
+    }, i * 18);
   }
 }
 
