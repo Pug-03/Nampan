@@ -17,6 +17,8 @@
   --font-serif: 'Cormorant Garamond', 'Times New Roman', serif;
   --font-script: 'Great Vibes', 'Segoe Script', cursive;
   --font-num: 'Comfortaa', 'Segoe UI', system-ui, sans-serif;
+  --num-weight: 700;
+  --num-scale: 1;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -291,7 +293,7 @@ body {
   50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.12); }
 }
 .unit-days .num {
-  font-size: clamp(64px, 20vw, 104px);
+  font-size: calc(clamp(64px, 20vw, 104px) * var(--num-scale, 1));
   text-shadow: 0 6px 26px rgba(231,119,155,.35);
   animation: heartbeat 2.6s ease-in-out infinite;
 }
@@ -303,7 +305,7 @@ body {
   42%      { transform: scale(1); }
 }
 .unit-days .cap { font-size: clamp(13px, 3.4vw, 16px); }
-.unit:not(.unit-days) .num { font-size: clamp(24px, 7vw, 34px); }
+.unit:not(.unit-days) .num { font-size: calc(clamp(24px, 7vw, 34px) * var(--num-scale, 1)); }
 .num {
   font-family: var(--font-num);
   font-size: clamp(30px, 9vw, 48px);
@@ -339,7 +341,12 @@ body {
   border-radius: 16px;
   overflow: hidden;
   background: linear-gradient(135deg, var(--pink-100), var(--pink-200));
+  cursor: grab;
+  touch-action: pan-y;          /* allow vertical page scroll, capture horizontal swipes */
+  -webkit-user-select: none;
+  user-select: none;
 }
+.slides:active { cursor: grabbing; }
 .slide {
   position: absolute; inset: 0;
   opacity: 0;
@@ -349,6 +356,14 @@ body {
   display: flex; align-items: center; justify-content: center;
 }
 .slide.active { opacity: 1; }
+/* portrait clip: show it fully (no upscaling/cropping) so it stays sharp,
+   with a soft on-theme pink fill behind the side bars */
+.slide-video { background: linear-gradient(135deg, var(--pink-200), var(--pink-300)); }
+.slide-video video {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  display: block;
+}
 .slide.placeholder {
   flex-direction: column; gap: 10px;
   color: var(--rose);
@@ -357,20 +372,6 @@ body {
   background: linear-gradient(135deg, var(--pink-100), var(--pink-300));
 }
 .slide.placeholder small { font-family: var(--font-serif); font-size: 15px; letter-spacing: .1em; opacity: .8; }
-.slide-btn {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  width: 40px; height: 40px; border-radius: 50%;
-  border: none; cursor: pointer;
-  background: rgba(255,255,255,.75);
-  color: var(--rose);
-  font-size: 24px; line-height: 1;
-  box-shadow: 0 4px 12px rgba(231,119,155,.25);
-  display: grid; place-items: center;
-  transition: background .2s, transform .2s;
-}
-.slide-btn:hover { background: #fff; transform: translateY(-50%) scale(1.08); }
-.slide-btn.prev { left: 22px; }
-.slide-btn.next { right: 22px; }
 .dots { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pink-300); cursor: pointer; transition: transform .2s, background .2s; }
 .dot.active { background: var(--rose); transform: scale(1.35); }
@@ -391,6 +392,15 @@ body {
   margin-bottom: 14px;
   color: var(--ink);
 }
+.letter-section {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(24px, 6vw, 32px);
+  color: var(--rose);
+  margin: 26px 0 8px;
+  text-align: left;
+}
+.letter-section:first-child { margin-top: 0; }
 .signature {
   text-align: right;
   margin-top: 10px;
@@ -424,15 +434,40 @@ body {
   backdrop-filter: blur(6px);
   transition: transform .2s;
 }
+.font-toggle[hidden] { display: none; }
 .font-toggle:hover { transform: scale(1.1); }
 .font-toggle:active { transform: scale(.94); }
 .font-icon {
   font-size: 22px;
   line-height: 1;
-  transition: transform .3s ease;
 }
-.font-toggle:active .font-icon { transform: rotate(180deg); }
+@keyframes spinSwap { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.font-icon.spin { animation: spinSwap .5s cubic-bezier(.4, 0, .2, 1); }
 
-@media (prefers-reduced-motion: reduce) {
-  * { animation-duration: .001s !important; animation-iteration-count: 1 !important; }
+/* ---------- music toggle ---------- */
+.music-toggle {
+  position: fixed;
+  right: 18px; bottom: 80px;   /* sits just above the font toggle */
+  z-index: 20;
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  border: none; cursor: pointer;
+  background: rgba(255,255,255,.8);
+  color: var(--rose);
+  box-shadow: 0 6px 18px rgba(231,119,155,.3);
+  display: grid; place-items: center;
+  backdrop-filter: blur(6px);
+  transition: transform .2s;
 }
+.music-toggle[hidden] { display: none; }
+.music-toggle:hover { transform: scale(1.1); }
+.music-toggle:active { transform: scale(.94); }
+.music-toggle.muted { opacity: .6; }
+.music-icon { width: 24px; height: 24px; display: block; }
+.music-toggle .ic-off { display: none; }
+.music-toggle.muted .ic-on { display: none; }
+.music-toggle.muted .ic-off { display: block; }
+
+/* Note: we intentionally keep the romantic animations playing even when the
+   device requests reduced motion (Low Power Mode / battery saver often turns
+   this on by default on phones, which would otherwise hide every effect). */

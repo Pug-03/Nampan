@@ -65,19 +65,27 @@
       <!-- Photo slideshow -->
       <div class="slideshow card">
         <div class="slides" id="slides"><!-- images injected by JS --></div>
-        <button class="slide-btn prev" id="prevBtn" aria-label="Previous photo">‹</button>
-        <button class="slide-btn next" id="nextBtn" aria-label="Next photo">›</button>
         <div class="dots" id="dots"></div>
       </div>
 
       <!-- Love letter -->
       <article class="letter card">
-        <h2 class="letter-title">A Letter For You</h2>
+        <h2 class="letter-title">A Letter For My Baby</h2>
         <div class="letter-body" id="letter-body">
-          <p>My Baby</p>
-          <p>Three months ago you walked into my life, and somehow everything became softer, warmer, and a little more like home. I still smile at my phone like an idiot every time your name lights up the screen.</p>
-          <p>Thank you for every late-night talk, every laugh, and every small moment that made the ordinary days feel like the best ones. I don't know what tomorrow holds, but I know I want to spend it finding out with you.</p>
-          <p>Here's to us — and to all the anniversaries still waiting to be ours.</p>
+          <h3 class="letter-section">Thank You</h3>
+          <p>First off, thank you so much for being by my side for these past three months. With only a few days left until you're finally back in Thailand, I'm so excited! Thank you for sticking with me through everything—the good days, the bad days, and even when I'm feeling down. Thanks for listening to me and for always trying to meet me halfway. Thank you for comforting me and putting up with me when I'm being cranky, even over the smallest things. It means the world to me.</p>
+
+          <h3 class="letter-section">Apology</h3>
+          <p>I also want to apologize for being a bit too harsh or asking you too many questions. I'm sorry for anything in the past three months that might have made you sad, cry, or overthink. I never want you to feel that way. I'm sorry if I ever put pressure on you when we had disagreements. It's been three months since we met, and I promise you, I'm going to do better. I can't promise I'll never mess up, but I promise I'll try my absolute best not to hurt you. I'm just counting down the days until you're back so we can finally be in the same time zone!</p>
+
+          <h3 class="letter-section">The Future &amp; Support</h3>
+          <p>Once you're back, we'll start your SAT prep together. I'll always be your biggest cheerleader because I really want to see you succeed. No matter what happens, I'm always going to be right here by your side. Please don't be too hard on yourself—like I said, getting into Chula is just a sprint, but life is a long marathon. I believe in you so much because I see how hard you're working. I know it's exhausting, and I really get it. I hope you get into your dream university and faculty! Whatever your goals are in the future, I'll be right here to support you. I'm so proud of you, you're amazing. I love you, 'Jao-Tood'.</p>
+
+          <h3 class="letter-section">Happy I Found You</h3>
+          <p>Finally, no matter what happens, I promise I'll do my best. I never thought I'd be the type to stay up until 2 or 3 a.m. at camp just to text someone, or post cat photos on my story just so you'd notice. But honestly, I'm just so happy I found you. Please stay by my side for a long, long time. Happy 3rd Anniversary!</p>
+
+          <h3 class="letter-section">Your Safe Zone</h3>
+          <p>And just like I've told you before, I want to be your safe zone. I want to be your safe, warm place to land, always. Whenever you need a hug, I'm here for you, 'Jao-Moo'.</p>
         </div>
         <p class="signature">Always yours ♡</p>
       </article>
@@ -85,6 +93,22 @@
       <p class="footer-note">Made with love, just for you · March 29</p>
     </div>
   </section>
+
+  <!-- Background music (drop a file at media/music.m4a to enable it) -->
+  <audio id="bg-music" src="media/music.m4a" loop preload="auto"></audio>
+
+  <!-- Mute / unmute the music -->
+  <button id="music-toggle" class="music-toggle" aria-label="Mute or unmute music" hidden>
+    <svg class="music-icon ic-on" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/>
+      <path d="M16 8.5a4 4 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M18.5 6a7 7 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+    <svg class="music-icon ic-off" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/>
+      <path d="M16.5 9.5l5 5M21.5 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+  </button>
 
   <!-- Cycle the number font -->
   <button id="font-toggle" class="font-toggle" aria-label="Change number font" hidden>
