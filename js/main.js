@@ -96,6 +96,15 @@ function startCounter() {
   const elSecs = document.getElementById("seconds");
   const sub = document.getElementById("counter-sub");
 
+  // Update a number and give it a little bounce only when it actually changes.
+  function bump(el, val) {
+    if (el.textContent === val) return;
+    el.textContent = val;
+    el.classList.remove("pop");
+    void el.offsetWidth; // force reflow so the animation restarts
+    el.classList.add("pop");
+  }
+
   function tick() {
     const now = new Date();
     let diff = Math.max(0, now - START_DATE) / 1000; // seconds
@@ -106,9 +115,9 @@ function startCounter() {
     const secs = Math.floor(diff);
 
     elDays.textContent = days;
-    elHours.textContent = String(hours).padStart(2, "0");
-    elMins.textContent = String(mins).padStart(2, "0");
-    elSecs.textContent = String(secs).padStart(2, "0");
+    bump(elHours, String(hours).padStart(2, "0"));
+    bump(elMins, String(mins).padStart(2, "0"));
+    bump(elSecs, String(secs).padStart(2, "0"));
 
     const months = Math.floor(days / 30.4375);
     if (months >= 1) {
