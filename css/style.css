@@ -315,31 +315,10 @@ body {
   margin: 6px 0 30px;
 }
 
-/* ---------- music toggle ---------- */
-.music-toggle {
-  position: fixed;
-  right: 18px; bottom: 18px;
-  z-index: 20;
-  width: 50px; height: 50px;
-  border-radius: 50%;
-  border: none; cursor: pointer;
-  background: rgba(255,255,255,.8);
-  color: var(--rose);
-  font-size: 22px;
-  box-shadow: 0 6px 18px rgba(231,119,155,.3);
-  display: grid; place-items: center;
-  backdrop-filter: blur(6px);
-  transition: transform .2s;
-}
-.music-toggle:hover { transform: scale(1.1); }
-.music-toggle .music-icon { animation: spin 4s linear infinite; }
-.music-toggle.paused .music-icon { animation-play-state: paused; opacity: .5; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
 /* ---------- number-font toggle ---------- */
 .font-toggle {
   position: fixed;
-  left: 18px; bottom: 18px;
+  right: 18px; bottom: 18px;
   z-index: 20;
   width: 50px; height: 50px;
   border-radius: 50%;
@@ -353,12 +332,12 @@ body {
 }
 .font-toggle:hover { transform: scale(1.1); }
 .font-toggle:active { transform: scale(.94); }
-.font-sample {
-  font-family: var(--font-num);
-  font-weight: var(--num-weight, 700);
-  font-size: 21px;
+.font-icon {
+  font-size: 22px;
   line-height: 1;
+  transition: transform .3s ease;
 }
+.font-toggle:active .font-icon { transform: rotate(180deg); }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: .001s !important; animation-iteration-count: 1 !important; }

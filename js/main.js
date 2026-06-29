@@ -65,8 +65,6 @@ function heartBurst() {
 const gift = document.getElementById("gift");
 const giftScreen = document.getElementById("gift-screen");
 const revealScreen = document.getElementById("reveal-screen");
-const bgm = document.getElementById("bgm");
-const musicToggle = document.getElementById("music-toggle");
 const fontToggle = document.getElementById("font-toggle");
 
 let opened = false;
@@ -78,13 +76,9 @@ gift.addEventListener("click", () => {
   setTimeout(() => gift.classList.add("open"), 500);
   setTimeout(heartBurst, 650);
 
-  // try to start the music (user just interacted, so this is allowed)
-  startMusic();
-
   setTimeout(() => {
     giftScreen.classList.remove("active");
     revealScreen.classList.add("active");
-    musicToggle.hidden = false;
     fontToggle.hidden = false;
     window.scrollTo(0, 0);
     startCounter();
@@ -204,29 +198,7 @@ function initSlideshow() {
 }
 
 /* ============================================================
-   5) Background music
-   ============================================================ */
-function startMusic() {
-  if (!bgm) return;
-  bgm.volume = 0.0;
-  const p = bgm.play();
-  if (p && p.then) {
-    p.then(() => fadeIn()).catch(() => {
-      // Autoplay blocked — user can tap the music button instead.
-      musicToggle.classList.add("paused");
-    });
-  }
-}
-function fadeIn() {
-  let v = 0;
-  const id = setInterval(() => {
-    v = Math.min(0.6, v + 0.03);
-    bgm.volume = v;
-    if (v >= 0.6) clearInterval(id);
-  }, 120);
-}
-/* ============================================================
-   6) Cycle the number font
+   5) Cycle the number font
    ============================================================ */
 // D, I, J, K — cycles in this order. [font-family, weight]
 const NUM_FONTS = [
@@ -242,13 +214,4 @@ fontToggle.addEventListener("click", () => {
   const root = document.documentElement.style;
   root.setProperty("--font-num", family);
   root.setProperty("--num-weight", weight);
-});
-
-musicToggle.addEventListener("click", () => {
-  if (bgm.paused) {
-    bgm.play().then(() => { fadeIn(); musicToggle.classList.remove("paused"); }).catch(() => {});
-  } else {
-    bgm.pause();
-    musicToggle.classList.add("paused");
-  }
 });
