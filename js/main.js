@@ -40,6 +40,49 @@ function spawnParticle() {
 setInterval(spawnParticle, 650);
 for (let i = 0; i < 8; i++) setTimeout(spawnParticle, i * 300);
 
+// A grand, spectacular burst the moment the lid blows off:
+// a light flash, expanding shockwave rings, and a radial explosion of hearts.
+function grandReveal() {
+  // 1) flash of light
+  const flash = document.createElement("div");
+  flash.className = "flash";
+  document.body.appendChild(flash);
+  requestAnimationFrame(() => flash.classList.add("go"));
+  setTimeout(() => flash.remove(), 1100);
+
+  // 2) two expanding shockwave rings
+  for (let r = 0; r < 2; r++) {
+    setTimeout(() => {
+      const ring = document.createElement("div");
+      ring.className = "shockwave";
+      document.body.appendChild(ring);
+      requestAnimationFrame(() => ring.classList.add("go"));
+      setTimeout(() => ring.remove(), 1200);
+    }, r * 170);
+  }
+
+  // 3) radial explosion of hearts & sparkles in every direction
+  const COLORS = ["#ff8fb8", "#e7779b", "#f7d9a0", "#ffaecd", "#ffffff"];
+  const ICONS = ["♡", "❤", "✦", "✿", "❀", "★"];
+  const n = 48;
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement("span");
+    c.className = "confetti";
+    c.textContent = ICONS[Math.floor(Math.random() * ICONS.length)];
+    const angle = (Math.PI * 2 * i) / n + (Math.random() * 0.4 - 0.2);
+    const dist = 120 + Math.random() * 280;
+    c.style.setProperty("--tx", Math.cos(angle) * dist + "px");
+    c.style.setProperty("--ty", Math.sin(angle) * dist + "px");
+    c.style.setProperty("--rot", (Math.random() * 720 - 360) + "deg");
+    c.style.setProperty("--dur", (0.9 + Math.random() * 0.7).toFixed(2) + "s");
+    c.style.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    c.style.fontSize = 14 + Math.random() * 24 + "px";
+    document.body.appendChild(c);
+    requestAnimationFrame(() => c.classList.add("go"));
+    setTimeout(() => c.remove(), 1700);
+  }
+}
+
 // A celebratory burst when the gift opens
 function heartBurst() {
   for (let i = 0; i < 30; i++) {
@@ -73,8 +116,11 @@ gift.addEventListener("click", () => {
   opened = true;
 
   gift.classList.add("opening");
-  setTimeout(() => gift.classList.add("open"), 500);
-  setTimeout(heartBurst, 650);
+  setTimeout(() => {
+    gift.classList.add("open");
+    grandReveal();      // flash + shockwave + heart explosion
+  }, 600);
+  setTimeout(heartBurst, 800);
 
   setTimeout(() => {
     giftScreen.classList.remove("active");
@@ -83,7 +129,7 @@ gift.addEventListener("click", () => {
     window.scrollTo(0, 0);
     startCounter();
     initSlideshow();
-  }, 1300);
+  }, 1600);
 });
 
 /* ============================================================
