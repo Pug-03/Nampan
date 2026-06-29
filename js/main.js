@@ -67,6 +67,7 @@ const giftScreen = document.getElementById("gift-screen");
 const revealScreen = document.getElementById("reveal-screen");
 const bgm = document.getElementById("bgm");
 const musicToggle = document.getElementById("music-toggle");
+const fontToggle = document.getElementById("font-toggle");
 
 let opened = false;
 gift.addEventListener("click", () => {
@@ -84,6 +85,7 @@ gift.addEventListener("click", () => {
     giftScreen.classList.remove("active");
     revealScreen.classList.add("active");
     musicToggle.hidden = false;
+    fontToggle.hidden = false;
     window.scrollTo(0, 0);
     startCounter();
     initSlideshow();
@@ -223,6 +225,25 @@ function fadeIn() {
     if (v >= 0.6) clearInterval(id);
   }, 120);
 }
+/* ============================================================
+   6) Cycle the number font
+   ============================================================ */
+// D, I, J, K — cycles in this order. [font-family, weight]
+const NUM_FONTS = [
+  ["'Comfortaa', 'Segoe UI', system-ui, sans-serif", 700], // D
+  ["'Dancing Script', cursive", 700],                       // I
+  ["'Marcellus', serif", 400],                              // J
+  ["'Prata', serif", 400],                                  // K
+];
+let fontIdx = 0;
+fontToggle.addEventListener("click", () => {
+  fontIdx = (fontIdx + 1) % NUM_FONTS.length;
+  const [family, weight] = NUM_FONTS[fontIdx];
+  const root = document.documentElement.style;
+  root.setProperty("--font-num", family);
+  root.setProperty("--num-weight", weight);
+});
+
 musicToggle.addEventListener("click", () => {
   if (bgm.paused) {
     bgm.play().then(() => { fadeIn(); musicToggle.classList.remove("paused"); }).catch(() => {});
