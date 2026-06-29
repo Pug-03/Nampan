@@ -21,6 +21,15 @@ const MEDIA = [
   { type: "image", src: "images/photo08.jpg" },
 ];
 
+// Warm the browser cache the moment the page loads, so the photos are already
+// downloaded by the time the slideshow appears — no waiting after the gift opens.
+MEDIA.forEach((item) => {
+  if (item.type === "image") {
+    const im = new Image();
+    im.src = item.src;
+  }
+});
+
 /* ============================================================
    1) Floating hearts & sparkles
    ============================================================ */
